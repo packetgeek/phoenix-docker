@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo 
+echo '#############################################################'
+echo '##                                                         ##'
+echo '## Wait approximately 15 seconds, to allow the VM to boot. ##'
+echo '## Then run:  ssh user@localhost -p 2222                   ##'
+echo '## Password:  user                                         ##'
+echo '##                                                         ##'
+echo '#############################################################'
+echo
+
+docker run -itd --name phoenix -h phoenix --device /dev/kvm --privileged -p 2222:2222 -e XDG_RUNTIME_DIR=/tmp \
+    -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+    -e QT_QPA_PLATFORM=wayland \
+    -e GDK_BACKEND=wayland \
+    -e CLUTTER_BACKEND=wayland \
+    -e DISPLAY=:0 \
+    phoenix 2>&1 > /dev/null
